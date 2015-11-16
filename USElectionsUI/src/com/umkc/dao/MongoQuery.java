@@ -197,7 +197,7 @@ public class MongoQuery {
     	BasicDBObject andQuery = new BasicDBObject();
     	List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
     	
-    	obj.add(new BasicDBObject("hashtag", username));
+    	obj.add(new BasicDBObject("hashtag", username.toLowerCase()));
     	obj.add(new BasicDBObject("sentiment",new BasicDBObject("$lt",2)));
     	andQuery.put("$and", obj);
     	System.out.println(andQuery.toString());
@@ -208,7 +208,7 @@ public class MongoQuery {
     	obj.clear();
     	
     	
-    	obj.add(new BasicDBObject("hashtag", username));
+    	obj.add(new BasicDBObject("hashtag", username.toLowerCase()));
     	obj.add(new BasicDBObject("sentiment",new BasicDBObject("$gt",2)));
     	andQuery.put("$and", obj);
     	System.out.println(andQuery.toString());	
@@ -218,7 +218,7 @@ public class MongoQuery {
     	obj.clear();
     	
     	
-    	obj.add(new BasicDBObject("hashtag", username));
+    	obj.add(new BasicDBObject("hashtag", username.toLowerCase()));
     	obj.add(new BasicDBObject("sentiment",2));
     	andQuery.put("$and", obj);
     	System.out.println(andQuery.toString());	
@@ -228,12 +228,33 @@ public class MongoQuery {
     	obj.clear();
     	
     	
-    	JSONObject result = new JSONObject();
-    	result.put("Positive", PositiveCount);
-    	result.put("Negative", NegativeCount);
-    	result.put("Neutral", NeutralCount);
     	
-    	return result.toString();
+    	int total = PositiveCount + NegativeCount + NeutralCount;
+    	
+    	double ps = ((double)PositiveCount/total)*100;
+    	double ns = ((double)NegativeCount/total)* 100;
+    	 double nes = ((double)NeutralCount/total) * 100;
+    	 System.out.println(total);
+    	 System.out.println(ps);
+    	 System.out.println(ns);
+    	 System.out.println(nes);
+    	 
+    	 JSONObject result = new JSONObject();
+     	result.put("value", ps);
+     	JSONObject result2 = new JSONObject();
+     	result2.put("value", ns);
+     	JSONObject result3 = new JSONObject();
+     	result3.put("value", nes);
+     	
+    	
+    	JSONArray finalResult = new JSONArray();
+    	finalResult.add(result);
+    	finalResult.add(result2);
+    	finalResult.add(result3);
+    	
+    	return finalResult.toString();
+    	
+    //	return result.toString();
     }
     
     public static void queryByDateforParty()
@@ -394,8 +415,9 @@ public class MongoQuery {
     	//MongoQuery.queryTotalCount();
     //	MongoQuery.queryWithSentimentCount();
     	String name="HillaryClinton";
-    //	MongoQuery.queryWithUserSentimentCount(name); 
-    	MongoQuery.queryByDateforParty();
+    	MongoQuery mongoQuery = new MongoQuery();
+    System.out.println(mongoQuery.queryWithUserSentimentCount(name)); 
+    	//MongoQuery.queryByDateforParty();
     }
 
 }
