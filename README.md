@@ -1,16 +1,16 @@
 # USElections
 This application, US-Elections analyses twitter data and displays a chart showing percentage of favorable, not-favorable and neutral opinions based on a hashtag.
 
-Technologies used:
+#Technologies used:
 
-Client side:
+##Client side:
 Java Script, Twitter Bootstrap, CSS, HTML
 
-Server side:
+##Server side:
 Spark, Spark Streaming, MongoLab, JAX-RS
 
-Services used:
+##Services used:
 Stanford CoreNLP, Twitter API, MongoDB Java API
 
-Deployed on Bluemix. 
-Url: uselectionsui.mybluemix.net/
+##Deployed on Bluemix.
+###Bluemix Url: uselectionsui.mybluemix.net/
